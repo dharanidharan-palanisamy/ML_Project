@@ -118,12 +118,12 @@ import matplotlib.pyplot as plt
 from streamlit_option_menu import option_menu
 
 # Define paths to the models and vectorizer
-base_path = os.path.dirname(__file__)
+base_path = os.path.dirname(os.path.abspath(__file__))
 sentiment_model_path = os.path.join(base_path, "sentiment_model.pkl")
 vectorizer_path = os.path.join(base_path, "tfidf_vectorizer.pkl")
 sleep_model_path = os.path.join(base_path, "sleep.pkl")
 
-# Load models
+# Load sentiment analysis model and vectorizer
 sentiment_model = joblib.load(sentiment_model_path)
 vectorizer = joblib.load(vectorizer_path)
 
@@ -193,6 +193,7 @@ else:
         relax = st.number_input("Enter your Relaxation Time", min_value=0.0, step=0.1, max_value=10.0)
 
     if st.button("Predict Sleep Time"):
+        # Load sleep model only when needed
         sleep_model = joblib.load(sleep_model_path)
         input_df = pd.DataFrame([{
             'work': work,
